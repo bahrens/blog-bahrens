@@ -2,26 +2,30 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://www.benjaminahrens.com/blog/2012/02/18/exploring-net-dlr/</loc>
-        <lastmod>2013-01-16T20:06:12-05:00</lastmod>
+        <lastmod>2013-01-16T20:31:19-05:00</lastmod>
     </url>
     <url>
         <loc>http://www.benjaminahrens.com/blog/2012/12/13/git-workflow-for-subversion/</loc>
-        <lastmod>2013-01-16T20:06:12-05:00</lastmod>
+        <lastmod>2013-01-16T20:31:19-05:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.benjaminahrens.com/archives/</loc>
+        <lastmod>2013-01-16T20:31:19-05:00</lastmod>
     </url>
     <url>
         <loc>http://www.benjaminahrens.com/blog/archives/</loc>
-        <lastmod>2013-01-16T20:06:12-05:00</lastmod>
+        <lastmod>2013-01-16T20:31:19-05:00</lastmod>
     </url>
     <url>
         <loc>http://www.benjaminahrens.com/</loc>
-        <lastmod>2013-01-16T20:06:12-05:00</lastmod>
+        <lastmod>2013-01-16T20:31:19-05:00</lastmod>
     </url>
     <url>
         <loc>http://www.benjaminahrens.com/robots.txt</loc>
-        <lastmod>2013-01-13T20:54:54-05:00</lastmod>
+        <lastmod>2013-01-16T20:31:19-05:00</lastmod>
     </url>
     <url>
         <loc>http://www.benjaminahrens.com/search.html</loc>
-        <lastmod>2013-01-16T20:06:12-05:00</lastmod>
+        <lastmod>2013-01-16T20:31:19-05:00</lastmod>
     </url>
 </urlset>
