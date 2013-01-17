@@ -30,6 +30,18 @@
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37700938-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
 
 </head>
 
@@ -87,6 +99,8 @@
 
 
 <time datetime="2012-12-13T21:17:00-05:00" pubdate data-updated="true">Dec 13<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/12/13/git-workflow-for-subversion/#disqus_thread">Comments</a>
         
       </p>
     
@@ -298,6 +312,8 @@ out as expected.  This kind of workflow really can&#8217;t be done in Subversio
 
 
 <time datetime="2012-02-18T21:20:00-05:00" pubdate data-updated="true">Feb 18<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/02/18/exploring-net-dlr/#disqus_thread">Comments</a>
         
       </p>
     
@@ -519,12 +535,6 @@ object, the following takes place:</p>
 
 
 <p>There are a lot of concepts in the above example (the .NET DLR, convention over configuration, fluent interfaces, etc.) Some work has already been with respect to a JSON implementation. Check out the following code on <a href="https://github.com/bahrens/Dyno.Net">github</a> to get a preview. I&#8217;m hoping to cover this in more detail in my next post.</p>
-
-<h2>Comments</h2>
-
-<p>Ben Ahrens</p>
-
-<p>I was working with ASP.NET MVC 4 the other day and stumbled across the following class&#8230;.System.Json.JsonObject. So, as it turns out Microsoft has already created the same class I was suggesting in my post. Most likely I will not continue creating the JsonObject class (aka Dyno.Net nuget package), unless it&#8217;s purely for educational purposes. I would hate to reinvent the wheel. However, it still may be worthwhile to create a dynamic rest client.</p>
 </div>
   
   
@@ -555,8 +565,62 @@ object, the following takes place:</p>
   </ul>
 </section>
 
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/bahrens">@bahrens</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'bahrens',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
 
 
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("ahrensben", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/ahrensben" class="twitter-follow-button" data-show-count="false">Follow @ahrensben</a>
+  
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/100760311462177605974?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
 
 
 
@@ -573,9 +637,39 @@ object, the following takes place:</p>
 </footer>
   
 
+<script type="text/javascript">
+      var disqus_shortname = 'benahrens';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
 
 
 

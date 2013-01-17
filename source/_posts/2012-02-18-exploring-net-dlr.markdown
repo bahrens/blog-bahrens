@@ -162,10 +162,3 @@ foreach (var photo in photos)
 {% endcodeblock %}
 
 There are a lot of concepts in the above example (the .NET DLR, convention over configuration, fluent interfaces, etc.) Some work has already been with respect to a JSON implementation. Check out the following code on [github](https://github.com/bahrens/Dyno.Net) to get a preview. I'm hoping to cover this in more detail in my next post.
-
-Comments
---------
-
-Ben Ahrens
-
-I was working with ASP.NET MVC 4 the other day and stumbled across the following class....System.Json.JsonObject. So, as it turns out Microsoft has already created the same class I was suggesting in my post. Most likely I will not continue creating the JsonObject class (aka Dyno.Net nuget package), unless it's purely for educational purposes. I would hate to reinvent the wheel. However, it still may be worthwhile to create a dynamic rest client.
