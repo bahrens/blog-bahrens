@@ -9,7 +9,7 @@
   <meta name="author" content="Ben Ahrens">
 
   
-  <meta name="description" content="I recently started a new job where the team is using Subversion as its VCS.  Coming from a previous job that used Mercurial, I found myself missing a &hellip;">
+  <meta name="description" content="Previously, I blogged about using Git with Subversion. Sometimes though, I like concise pieces of information, without all the details. For that &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,67 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/17/cheetsheet-git-with-subversion/">Cheetsheet - Git With Subversion</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-17T18:09:00-05:00" pubdate data-updated="true">Jan 17<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/01/17/cheetsheet-git-with-subversion/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Previously, I blogged about using <a href="/blog/2012/12/13/git-workflow-for-subversion/">Git with Subversion</a>. Sometimes though, I like concise pieces of information, without all the details. For that reason, here is a cheatsheet on the steps for using Git with Subversion:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">rebase</span>
+</span><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="n">new_awesome_feature_branch</span>
+</span><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="n">new_awesome_feature_branch</span>
+</span><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&quot;this is best feature ever implemented&quot;</span>
+</span><span class='line'><span class="n">git</span> <span class="n">rebase</span> <span class="n">master</span>
+</span><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="n">master</span>
+</span><span class='line'><span class="n">git</span> <span class="n">merge</span> <span class="n">new_awesome_feature_branch</span>
+</span><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">rebase</span>
+</span><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">dcommit</span>
+</span><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="n">-D</span> <span class="n">new_awesome_feature_branch</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -553,6 +614,10 @@ object, the following takes place:</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/01/17/cheetsheet-git-with-subversion/">Cheetsheet - Git with Subversion</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/12/13/git-workflow-for-subversion/">Using Git With Subversion (Git and SVN Workflow)</a>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: cheatsheet | Ben Ahrens]]></title>
+  <link href="http://www.benjaminahrens.com/blog/categories/cheatsheet/atom.xml" rel="self"/>
+  <link href="http://www.benjaminahrens.com/"/>
+  <updated>2013-01-17T18:18:18-05:00</updated>
+  <id>http://www.benjaminahrens.com/</id>
+  <author>
+    <name><![CDATA[Ben Ahrens]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Cheetsheet - Git with Subversion]]></title>
+    <link href="http://www.benjaminahrens.com/blog/2013/01/17/cheetsheet-git-with-subversion/"/>
+    <updated>2013-01-17T18:09:00-05:00</updated>
+    <id>http://www.benjaminahrens.com/blog/2013/01/17/cheetsheet-git-with-subversion</id>
+    <content type="html"><![CDATA[<p>Previously, I blogged about using <a href="/blog/2012/12/13/git-workflow-for-subversion/">Git with Subversion</a>. Sometimes though, I like concise pieces of information, without all the details. For that reason, here is a cheatsheet on the steps for using Git with Subversion:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">rebase</span>
+</span><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="n">new_awesome_feature_branch</span>
+</span><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="n">new_awesome_feature_branch</span>
+</span><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&quot;this is best feature ever implemented&quot;</span>
+</span><span class='line'><span class="n">git</span> <span class="n">rebase</span> <span class="n">master</span>
+</span><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="n">master</span>
+</span><span class='line'><span class="n">git</span> <span class="n">merge</span> <span class="n">new_awesome_feature_branch</span>
+</span><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">rebase</span>
+</span><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">dcommit</span>
+</span><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="n">-D</span> <span class="n">new_awesome_feature_branch</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+</feed>
