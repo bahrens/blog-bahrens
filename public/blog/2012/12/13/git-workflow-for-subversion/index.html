@@ -1,0 +1,380 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Using Git With Subversion (Git and SVN Workflow) - Ben Ahrens</title>
+  <meta name="author" content="Ben Ahrens">
+
+  
+  <meta name="description" content="I recently started a new job where the team is using Subversion as its VCS.  Coming from a previous job that used Mercurial, I found myself missing a &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.benjaminahrens.com/blog/2012/12/13/git-workflow-for-subversion/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Ben Ahrens" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ben Ahrens</a></h1>
+  
+    <h2>.NET and other tech</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.benjaminahrens.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Using Git With Subversion (Git and SVN Workflow)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-13T21:17:00-05:00" pubdate data-updated="true">Dec 13<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I recently started a new job where the team is using Subversion as its VCS.  Coming from a previous job that used Mercurial, I found myself missing a DVCS.  The main reason that I miss a DVCS really comes down to
+how I like write code.  My preferred workflow is to constantly work in small iterations, constantly reshaping, manipulating code, until I&#8217;m happy with the final implementation.  This is often coupled with
+committing changes to my local repository at various &#8220;milestones&#8221; along the way, so that I have snapshot of my work, and so that I can move back to a previous &#8220;state&#8221;, if I ended up exploring a path that didn&#8217;t turn
+out as expected.  This kind of workflow really can&#8217;t be done in Subversion since every commit is to the central repository. This is where Git and Mercurial shine.  I didn&#8217;t want to give up my current coding style, and decided to learn how to use a DVCS with Subversion.  I chose Git because it seemed to have better support and community information on how to use it with Subversion.</p>
+
+<p>I&#8217;m not going to cover the specifics on how to use Git with Subversion. There is already great information available that covers the basics of how to integrate Git and Subversion.  Probably the best information for that can be found with the free online version of <a href="http://goo.gl/koR4L">ProGit</a>.  For this blog post, I would like to instead focus on what I found to be a good workflow when using Git with Subversion.  I found the information on the Internet about how to use local branches with Git and Subversion to be a little unclear.  With some trail and error (and some reading / research) I found a workflow that seems to minimize my pain when using Git local branches with Subversion.</p>
+
+<h4>First step is to clone an existing Subversion repository</h4>
+
+<p>If you have an existing Subversion repository that follows the standard trunk, tags, branches, convention, you can issue the following command:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">clone</span> <span class="n">path_to_svn_repository</span> <span class="n">-T</span> <span class="n">trunk</span> <span class="n">-b</span> <span class="n">branches</span> <span class="n">-t</span> <span class="n">tags</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or the following is shortcut for the above command:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">clone</span> <span class="n">path_to_svn_repository</span> <span class="n">-s</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Otherwise just clone without any additional flags, like so:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">clone</span> <span class="n">path_to_svn_repository</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>An important thing to note here&#8230;this can step can take a VERY long time.  If you were using Git for everything, the cloning operation is typically pretty fast.  What makes this process slow with Subversion is the fact that in addition to pulling down all the changes, it has to commit them to your local git repository (as opposed to just coping the repository that&#8217;s on the server).  Depending on the size of your repository this can take hours, even days!  Make sure you give yourself enough time let this process run.</p>
+
+<h4>Typical Workflow</h4>
+
+<ol>
+<li>Update master branch to be in sync with central Subversion repository</li>
+<li>Create a new local branch for a small piece of work</li>
+<li>Checkout the new local branch</li>
+<li>Make some changes and commit them</li>
+<li>Rebase master onto the new local branch</li>
+<li>Checkout the master branch</li>
+<li>Perform a fast-forward merge with your new local branch</li>
+<li>Update master to be in sync with central Subversion repository (technically this is optional when using git with Subversion)</li>
+<li>Commit master branch to central subversion repository</li>
+<li>Delete your new local branch (you may get a warning that this hasn&#8217;t merged with master because of svn rebasing - this is ok, just force the delete)</li>
+</ol>
+
+
+<h4>Step 1 - Syncing with Subversion</h4>
+
+<p>Assuming you&#8217;re on your master branch (you can verify with git branch), perform the following:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">rebase</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Step 2 - Creating a local branch</h4>
+
+<p>Now create yourself a new local branch for working on a feature:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="n">new_awesome_feature_branch</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This command creates a local branch that will not exist anywhere else but your local repository unless you issue the appropriate git commands to push this branch somewhere else.</p>
+
+<h4>Step 3 - Checkout local branch</h4>
+
+<p>You now have a local branch called new_awesome_feature_branch. In order to do work on this branch, you first have to checkout the branch with the following command:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="n">new_awesome_feature_branch</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Step 4 - Make some changes, and commit them</h4>
+
+<p>You are now ready to start implementing your &#8220;new awesome feature&#8221;. The typical git workflow at this point would be to make some changes, and add them to your staging area with the git add command. Once you have your changes staged, commit them to your current branch with:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&quot;this is best feature ever implemented&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Step 5 - Rebase local branch onto master</h4>
+
+<p>Now comes one of the most important steps, which is integrating your changes with master, so that you can commit them to the central Subversion repository.  All the best practices that I found when using git with Subversion, suggested to keep your commit history as linear as possible.  Rather than immediately merging your branch back into master, rebase first. To do this, issue the following command:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">rebase</span> <span class="n">master</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you haven&#8217;t performed a git svn rebase on the master branch, or rebased other local branches onto your master since you did work on your new branch, the rebasing step will be straightforward and should happen without any merge conflicts.  If changes on master have occurred since you branched, then it is possible that you may have to deal with some merge conflicts.  I won&#8217;t cover resolving merges here, instead I recommend checking out git documentation or reading <a href="http://goo.gl/koR4L">ProGit</a>.</p>
+
+<h4>Step 6 - Checkout master branch</h4>
+
+<p>Checkout your master branch:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="n">master</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Step 7 - Fast-Forward Merge</h4>
+
+<p>Now for merging your changes back into master.  Because you performed a rebase of the master branch onto your feature branch, this next thing to occur will be what is referred to as a &#8220;fast-forward merge&#8221;.  I won&#8217;t cover the technical details of this, essentially it is a simple merge process that advances your master branch forward to last commit you made on the new_awesome_feature_branch.  Perform the merge with this command:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">merge</span> <span class="n">new_awesome_feature_branch</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Step 8 - Sync with Subversion again (optional)</h4>
+
+<p>You are now ready to commit your changes back to the central Subversion repository.  One thing to note is that if you look at your commit history for the master branch, everything should be very linear and you should not even notice that changes were performed on another branch. It should look as if you performed the changes on the master branch.</p>
+
+<p>If you want to be very thorough before commit your changes, you could get the master branch in sync with the Subversion repository before committing.  This is not necessary, because the next step should take care of getting you sync if it&#8217;s required.  If you remember from earlier, the command for syncing with Subversion is:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">rebase</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Step 9 - Commit to Subversion</h4>
+
+<p>We are getting very close to being done.  Let&#8217;s push all the commits you have on master, up to your Subversion repository. To do that, issue this command:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">dcommit</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you&#8217;re interested in what happens during this step, I&#8217;ll give you a little background.  Because Git and Subversion are two completely different types of version control systems, this command you just issued has to do some special things.  One of these is to commit your changes to the Subversion repository and also &#8220;rewrite&#8221; your commits within your local Git repository while also adding the Subversion revision id so that it can track commits.  If you happened to look at the SHA-1 hashes for your git commits before and after running this last command, you&#8217;d noticed that they are different because of rewriting.</p>
+
+<h4>Step 10 - Delete your local branch</h4>
+
+<p>Now that you&#8217;re done implementing your new awesome feature, it is safe to delete the new_awesome_feature_branch.  I recommend doing this immediately.  Git branches are so lightweight and easy to create, that there is no reason to keep this local branch around.  I typically create myself a new branch every time I do a small bit of related work. Because of the special things that happen with the Git and Subversion integration, you may get a warning when deleting your branch, stating that it may not have been merged back into master.  This has to do with &#8220;rewriting&#8221; that occurred when committing to Subversion.  This is easy to overcome and can be overridden by issuing this command:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="n">-D</span> <span class="n">new_awesome_feature_branch</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The capital D is important here.  This forces the delete to happen.</p>
+
+<h4>Summary</h4>
+
+<p>This may have seemed like a lot of information and steps, however, in practice, this workflow is pretty easy.  Here&#8217;s a quick recap of the steps from a different point of view, the commands you will issue with Git:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">rebase</span>
+</span><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="n">new_awesome_feature_branch</span>
+</span><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="n">new_awesome_feature_branch</span>
+</span><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&quot;this is best feature ever implemented&quot;</span>
+</span><span class='line'><span class="n">git</span> <span class="n">rebase</span> <span class="n">master</span>
+</span><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="n">master</span>
+</span><span class='line'><span class="n">git</span> <span class="n">merge</span> <span class="n">new_awesome_feature_branch</span>
+</span><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">rebase</span>
+</span><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">dcommit</span>
+</span><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="n">-D</span> <span class="n">new_awesome_feature_branch</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It took me a little while to figure out how to best use Git local branches with Subversion. I hope this information is helpful to others that want to use Git with Subversion, as well as save you some time.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ben Ahrens</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-13T21:17:00-05:00" pubdate data-updated="true">Dec 13<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/dvcs/'>dvcs</a>, <a class='category' href='/blog/categories/git/'>git</a>, <a class='category' href='/blog/categories/subversion/'>subversion</a>, <a class='category' href='/blog/categories/vcs/'>vcs</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.benjaminahrens.com/blog/2012/12/13/git-workflow-for-subversion/" data-via="" data-counturl="http://www.benjaminahrens.com/blog/2012/12/13/git-workflow-for-subversion/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/02/18/exploring-net-dlr/" title="Previous Post: The DLR Isn't Just For Dynamic Languages">&laquo; The DLR Isn't Just For Dynamic Languages</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/13/git-workflow-for-subversion/">Using Git With Subversion (Git and SVN Workflow)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/18/exploring-net-dlr/">The DLR Isn't Just For Dynamic Languages</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Ben Ahrens -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

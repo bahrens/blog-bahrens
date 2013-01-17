@@ -9,7 +9,7 @@
   <meta name="author" content="Ben Ahrens">
 
   
-  <meta name="description" content=" Blog Archives Recent Posts ">
+  <meta name="description" content="I recently started a new job where the team is using Subversion as its VCS.  Coming from a previous job that used Mercurial, I found myself missing a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,473 @@
       <div class="blog-index">
   
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/12/13/git-workflow-for-subversion/">Using Git With Subversion (Git and SVN Workflow)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-13T21:17:00-05:00" pubdate data-updated="true">Dec 13<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I recently started a new job where the team is using Subversion as its VCS.  Coming from a previous job that used Mercurial, I found myself missing a DVCS.  The main reason that I miss a DVCS really comes down to
+how I like write code.  My preferred workflow is to constantly work in small iterations, constantly reshaping, manipulating code, until I&#8217;m happy with the final implementation.  This is often coupled with
+committing changes to my local repository at various &#8220;milestones&#8221; along the way, so that I have snapshot of my work, and so that I can move back to a previous &#8220;state&#8221;, if I ended up exploring a path that didn&#8217;t turn
+out as expected.  This kind of workflow really can&#8217;t be done in Subversion since every commit is to the central repository. This is where Git and Mercurial shine.  I didn&#8217;t want to give up my current coding style, and decided to learn how to use a DVCS with Subversion.  I chose Git because it seemed to have better support and community information on how to use it with Subversion.</p>
+
+<p>I&#8217;m not going to cover the specifics on how to use Git with Subversion. There is already great information available that covers the basics of how to integrate Git and Subversion.  Probably the best information for that can be found with the free online version of <a href="http://goo.gl/koR4L">ProGit</a>.  For this blog post, I would like to instead focus on what I found to be a good workflow when using Git with Subversion.  I found the information on the Internet about how to use local branches with Git and Subversion to be a little unclear.  With some trail and error (and some reading / research) I found a workflow that seems to minimize my pain when using Git local branches with Subversion.</p>
+
+<h4>First step is to clone an existing Subversion repository</h4>
+
+<p>If you have an existing Subversion repository that follows the standard trunk, tags, branches, convention, you can issue the following command:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">clone</span> <span class="n">path_to_svn_repository</span> <span class="n">-T</span> <span class="n">trunk</span> <span class="n">-b</span> <span class="n">branches</span> <span class="n">-t</span> <span class="n">tags</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or the following is shortcut for the above command:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">clone</span> <span class="n">path_to_svn_repository</span> <span class="n">-s</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Otherwise just clone without any additional flags, like so:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">clone</span> <span class="n">path_to_svn_repository</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>An important thing to note here&#8230;this can step can take a VERY long time.  If you were using Git for everything, the cloning operation is typically pretty fast.  What makes this process slow with Subversion is the fact that in addition to pulling down all the changes, it has to commit them to your local git repository (as opposed to just coping the repository that&#8217;s on the server).  Depending on the size of your repository this can take hours, even days!  Make sure you give yourself enough time let this process run.</p>
+
+<h4>Typical Workflow</h4>
+
+<ol>
+<li>Update master branch to be in sync with central Subversion repository</li>
+<li>Create a new local branch for a small piece of work</li>
+<li>Checkout the new local branch</li>
+<li>Make some changes and commit them</li>
+<li>Rebase master onto the new local branch</li>
+<li>Checkout the master branch</li>
+<li>Perform a fast-forward merge with your new local branch</li>
+<li>Update master to be in sync with central Subversion repository (technically this is optional when using git with Subversion)</li>
+<li>Commit master branch to central subversion repository</li>
+<li>Delete your new local branch (you may get a warning that this hasn&#8217;t merged with master because of svn rebasing - this is ok, just force the delete)</li>
+</ol>
+
+
+<h4>Step 1 - Syncing with Subversion</h4>
+
+<p>Assuming you&#8217;re on your master branch (you can verify with git branch), perform the following:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">rebase</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Step 2 - Creating a local branch</h4>
+
+<p>Now create yourself a new local branch for working on a feature:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="n">new_awesome_feature_branch</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This command creates a local branch that will not exist anywhere else but your local repository unless you issue the appropriate git commands to push this branch somewhere else.</p>
+
+<h4>Step 3 - Checkout local branch</h4>
+
+<p>You now have a local branch called new_awesome_feature_branch. In order to do work on this branch, you first have to checkout the branch with the following command:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="n">new_awesome_feature_branch</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Step 4 - Make some changes, and commit them</h4>
+
+<p>You are now ready to start implementing your &#8220;new awesome feature&#8221;. The typical git workflow at this point would be to make some changes, and add them to your staging area with the git add command. Once you have your changes staged, commit them to your current branch with:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&quot;this is best feature ever implemented&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Step 5 - Rebase local branch onto master</h4>
+
+<p>Now comes one of the most important steps, which is integrating your changes with master, so that you can commit them to the central Subversion repository.  All the best practices that I found when using git with Subversion, suggested to keep your commit history as linear as possible.  Rather than immediately merging your branch back into master, rebase first. To do this, issue the following command:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">rebase</span> <span class="n">master</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you haven&#8217;t performed a git svn rebase on the master branch, or rebased other local branches onto your master since you did work on your new branch, the rebasing step will be straightforward and should happen without any merge conflicts.  If changes on master have occurred since you branched, then it is possible that you may have to deal with some merge conflicts.  I won&#8217;t cover resolving merges here, instead I recommend checking out git documentation or reading <a href="http://goo.gl/koR4L">ProGit</a>.</p>
+
+<h4>Step 6 - Checkout master branch</h4>
+
+<p>Checkout your master branch:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="n">master</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Step 7 - Fast-Forward Merge</h4>
+
+<p>Now for merging your changes back into master.  Because you performed a rebase of the master branch onto your feature branch, this next thing to occur will be what is referred to as a &#8220;fast-forward merge&#8221;.  I won&#8217;t cover the technical details of this, essentially it is a simple merge process that advances your master branch forward to last commit you made on the new_awesome_feature_branch.  Perform the merge with this command:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">merge</span> <span class="n">new_awesome_feature_branch</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Step 8 - Sync with Subversion again (optional)</h4>
+
+<p>You are now ready to commit your changes back to the central Subversion repository.  One thing to note is that if you look at your commit history for the master branch, everything should be very linear and you should not even notice that changes were performed on another branch. It should look as if you performed the changes on the master branch.</p>
+
+<p>If you want to be very thorough before commit your changes, you could get the master branch in sync with the Subversion repository before committing.  This is not necessary, because the next step should take care of getting you sync if it&#8217;s required.  If you remember from earlier, the command for syncing with Subversion is:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">rebase</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Step 9 - Commit to Subversion</h4>
+
+<p>We are getting very close to being done.  Let&#8217;s push all the commits you have on master, up to your Subversion repository. To do that, issue this command:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">dcommit</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you&#8217;re interested in what happens during this step, I&#8217;ll give you a little background.  Because Git and Subversion are two completely different types of version control systems, this command you just issued has to do some special things.  One of these is to commit your changes to the Subversion repository and also &#8220;rewrite&#8221; your commits within your local Git repository while also adding the Subversion revision id so that it can track commits.  If you happened to look at the SHA-1 hashes for your git commits before and after running this last command, you&#8217;d noticed that they are different because of rewriting.</p>
+
+<h4>Step 10 - Delete your local branch</h4>
+
+<p>Now that you&#8217;re done implementing your new awesome feature, it is safe to delete the new_awesome_feature_branch.  I recommend doing this immediately.  Git branches are so lightweight and easy to create, that there is no reason to keep this local branch around.  I typically create myself a new branch every time I do a small bit of related work. Because of the special things that happen with the Git and Subversion integration, you may get a warning when deleting your branch, stating that it may not have been merged back into master.  This has to do with &#8220;rewriting&#8221; that occurred when committing to Subversion.  This is easy to overcome and can be overridden by issuing this command:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="n">-D</span> <span class="n">new_awesome_feature_branch</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The capital D is important here.  This forces the delete to happen.</p>
+
+<h4>Summary</h4>
+
+<p>This may have seemed like a lot of information and steps, however, in practice, this workflow is pretty easy.  Here&#8217;s a quick recap of the steps from a different point of view, the commands you will issue with Git:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">rebase</span>
+</span><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="n">new_awesome_feature_branch</span>
+</span><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="n">new_awesome_feature_branch</span>
+</span><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&quot;this is best feature ever implemented&quot;</span>
+</span><span class='line'><span class="n">git</span> <span class="n">rebase</span> <span class="n">master</span>
+</span><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="n">master</span>
+</span><span class='line'><span class="n">git</span> <span class="n">merge</span> <span class="n">new_awesome_feature_branch</span>
+</span><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">rebase</span>
+</span><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">dcommit</span>
+</span><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="n">-D</span> <span class="n">new_awesome_feature_branch</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It took me a little while to figure out how to best use Git local branches with Subversion. I hope this information is helpful to others that want to use Git with Subversion, as well as save you some time.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/18/exploring-net-dlr/">The DLR Isn&#8217;t Just for Dynamic Languages</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-18T21:20:00-05:00" pubdate data-updated="true">Feb 18<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Introduction</h3>
+
+<p>After attending CodeMash this past January, I became very interested in the .NET DLR and what it has to offer with respect to making coding activities more natural and hassle-free. For those of you that are not familiar with the .NET DLR (dynamic language runtime), I highly encourage you to take a look at it. Essentially, the DLR brings dynamic language support to the .NET programming environment.  This has allowed for dynamic languages, such as Python or Ruby, to execute on the .NET runtime. Running Python and Ruby on .NET is pretty awesome. However, this might not be useful for a lot .NET developers.</p>
+
+<p>It turns out that the DLR isn&#8217;t just for dynamic languages. The DLR has some very powerful features that the everyday programmer can take advantage of. Let&#8217;s imagine for a moment that you have a need for a dynamic object (and don&#8217;t worry about the details of what a dynamic object is, or why you need one&#8230;hopefully this will become more clear
+by the end of this discussion). Luckily for us, Microsoft has provided some tools to make dynamic object creation pretty easy. Here are a few examples of these tools:</p>
+
+<ul>
+<li>ExpandoObject - a dynamic object that allows members to be added and removed at runtime</li>
+<li>DynamicObject - a base class you can inherit from in order to implement your own dynamic object</li>
+<li>IDynamicMetaObjectProvider - an interface that represents a dynamic object that has its operations bound at runtime</li>
+</ul>
+
+
+<h4>Exploring the DLR with the ExpandoObject</h4>
+
+<p>The ExpandoObject is dynamic object that Microsoft has implemented for
+us, that we can start using immediately. Here&#8217;s a quick example of the
+ExpandoObject in action:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="c1">// create a new dynamic &quot;person&quot; object</span>
+</span><span class='line'><span class="kt">dynamic</span> <span class="n">person</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ExpandoObject</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// creates a new property &quot;FirstName&quot; and sets it&#39;s value to &quot;Bill&quot;</span>
+</span><span class='line'><span class="n">person</span><span class="p">.</span><span class="n">FirstName</span> <span class="p">=</span> <span class="s">&quot;Bill&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// prints &quot;Bill&quot; to the console</span>
+</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">FirstName</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// throws an exception because the &quot;LastName&quot; property does not yet exist</span>
+</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">LastName</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see from the above code sample, using the ExpandoObject was
+pretty easy. Let&#8217;s talk briefly about how this works. The first thing to
+take note of is the &#8220;dynamic&#8221; keyword. &#8220;dynamic&#8221; is a static type, that
+bypasses the static type checking performed by the compiler.  </p>
+
+<p>How the &#8220;dynamic&#8221; keyword works:</p>
+
+<ul>
+<li>The &#8220;dynamic&#8221; keyword tells the C# compiler to bypass the static checking that it normally performs</li>
+<li>This means that when you compile your code, it will not check whether a method or property exists on the object</li>
+<li>You are basically telling the compiler &#8220;trust me, this property or method exists&#8221;</li>
+<li>Because the compiler is not performing static checking, it will not be able to determine whether a method or property exists until runtime (this is referred to as late-binding and is accomplished through dynamic dispatch)</li>
+<li>Because the compiler is not performing static checking, you can call a method or property that does not exist, and you will not see an error until this method or property is invoked at runtime</li>
+<li>There is a performance penalty because the compiler is not able perform any optimizations, and has to use dynamic dispatch (this is not the full story however, the compiler also emits call site caching which is beyond the scope of this article)</li>
+</ul>
+
+
+<p>As you can see, the story of using the &#8220;dynamic&#8221; keyword is not simple.
+A lot of things are taking place behind the scenes that you might not
+have been aware of.</p>
+
+<p>Now that we&#8217;ve covered how the &#8220;dynamic&#8221; keyword works, we can explore the ExpandoObject in more detail. In the code example, we instantiate a new ExpandoObject as the type &#8220;dynamic&#8221;. This allows us to call any
+method or property on the object without the compiler generating errors. You may be asking, how does the ExpandoObject get or set a member when no implementation has been defined? The ExpandoObject is essentially a
+dictionary, where the keys are member names (ex. &#8220;FirstName&#8221;), and the value of the keys are set to the members&#8217; values (ex. &#8220;Bill&#8221;). For example, consider this code:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="c1">// create a new dynamic &quot;person&quot; object</span>
+</span><span class='line'><span class="kt">dynamic</span> <span class="n">person</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ExpandoObject</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// creates a new property &quot;FirstName&quot; and sets it&#39;s value to &quot;Bill&quot;</span>
+</span><span class='line'><span class="n">person</span><span class="p">.</span><span class="n">FirstName</span> <span class="p">=</span> <span class="s">&quot;Bill&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// prints &quot;Bill&quot; to the console</span>
+</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">FirstName</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When the member &#8220;FirstName&#8221; is set to the string &#8220;Bill&#8221; on the person
+object, the following takes place:</p>
+
+<ul>
+<li>The DLR calls a method on the ExpandoObject, passing in the name of the property as the string &#8220;FirstName&#8221;</li>
+<li>It also passes the value of the property, the string &#8220;Bill&#8221;</li>
+<li>Because the ExpandoObject is an IDictionary&lt;string, object>, it will use the property name &#8220;FirstName&#8221; as the key to save the value &#8220;Bill&#8221;</li>
+</ul>
+
+
+<h4>Exploring the DLR with DynamicObject</h4>
+
+<p>The ExpandoObject is a pretty powerful right out of the box. Still, there may be situations where the ExpandoObject won&#8217;t provide the features that you need. At this point, you&#8217;ll have to write your own dynamic object implementation. A possible option would be to inherit from the DynamicObject class. This is a little more involved than using an ExpandoObject, but it&#8217;s still pretty straightforward. The DynamicObject class still takes care a lot of the low-level DLR stuff so that you can easily implement your own dynamic object. Let&#8217;s walk through the details of implementing our own dynamic object by creating our own implementation of an ExpandoObject.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">AnotherExpandoObject</span> <span class="p">:</span> <span class="n">DynamicObject</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">private</span> <span class="k">static</span> <span class="k">readonly</span> <span class="n">IDictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">object</span><span class="p">&gt;</span><span class="n">Dictionary</span> <span class="p">=</span>
+</span><span class='line'>    <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">object</span><span class="p">&gt;();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">public</span> <span class="k">override</span> <span class="kt">bool</span> <span class="nf">TryGetMember</span><span class="p">(</span><span class="n">GetMemberBinder</span> <span class="n">binder</span><span class="p">,</span> <span class="k">out</span> <span class="kt">object</span> <span class="n">result</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">Dictionary</span><span class="p">.</span><span class="n">TryGetValue</span><span class="p">(</span><span class="n">binder</span><span class="p">.</span><span class="n">Name</span><span class="p">,</span> <span class="k">out</span> <span class="n">result</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">public</span> <span class="k">override</span> <span class="kt">bool</span> <span class="nf">TrySetMember</span><span class="p">(</span><span class="n">SetMemberBinder</span> <span class="n">binder</span><span class="p">,</span> <span class="kt">object</span> <span class="k">value</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">Dictionary</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">binder</span><span class="p">.</span><span class="n">Name</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>      <span class="n">Dictionary</span><span class="p">[</span><span class="n">binder</span><span class="p">.</span><span class="n">Name</span><span class="p">]</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>      <span class="n">Dictionary</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">binder</span><span class="p">.</span><span class="n">Name</span><span class="p">,</span> <span class="k">value</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is a pretty basic implementation of an dynamic object that has some of the same behavior as the built-in ExpandoObject class. Let&#8217;s change the code from the first code sample, to the following code:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="c1">// create a new dynamic &quot;person&quot; object</span>
+</span><span class='line'><span class="kt">dynamic</span> <span class="n">person</span> <span class="p">=</span> <span class="k">new</span> <span class="n">AnotherExpandoObject</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// creates a new property &quot;FirstName&quot; and sets it&#39;s value to &quot;Bill&quot;</span>
+</span><span class='line'><span class="n">person</span><span class="p">.</span><span class="n">FirstName</span> <span class="p">=</span> <span class="s">&quot;Bill&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// prints &quot;Bill&quot; to the console</span>
+</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">FirstName</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice that the only change was that we are now using AnotherExpandoObject instead of ExpandoObject. This particular code sample will run and behave in the same way as it did with the ExpandoObject.</p>
+
+<h4>Exploring the DLR with IDynamicMetaObjectProvider</h4>
+
+<p>A third option for creating your own dynamic object is to use the IDynamicMetaObjectProvider interface. The details of using this method, are beyond the scope of this article. I am hoping to explore this more myself, and to talk about it in a future post.</p>
+
+<h4>Where to go next?</h4>
+
+<p>So, why would you want to use the DLR? One particular scenario I&#8217;ve been exploring is with consuming RESTful services that utilize JSON and XML. I believe that the DLR is a really compelling choice for creating libraries and frameworks that help discover and consume RESTful web services. Imagine there was a library that allowed you to write the following type of code (against any RESTful API):</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="c1">// create a new rest client to the specified base url</span>
+</span><span class='line'><span class="kt">dynamic</span> <span class="n">restClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RestClient</span><span class="p">(</span><span class="s">&quot;http://url.to.some.restful.api.com&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// build up the resource url dynamically, and execute an http get</span>
+</span><span class='line'><span class="c1">// against the url http://url.to.some.restful.api.com/albums/photos/</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">photos</span> <span class="p">=</span> <span class="n">restClient</span><span class="p">.</span><span class="n">albums</span><span class="p">.</span><span class="n">photos</span><span class="p">(</span><span class="n">Method</span><span class="p">.</span><span class="n">Get</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// read the returned json collection in a very natural way</span>
+</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">photo</span> <span class="k">in</span> <span class="n">photos</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">photo</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">photo</span><span class="p">.</span><span class="n">date</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">photo</span><span class="p">.</span><span class="n">albumName</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There are a lot of concepts in the above example (the .NET DLR, convention over configuration, fluent interfaces, etc.) Some work has already been with respect to a JSON implementation. Check out the following code on <a href="https://github.com/bahrens/Dyno.Net">github</a> to get a preview. I&#8217;m hoping to cover this in more detail in my next post.</p>
+
+<h2>Comments</h2>
+
+<p>Ben Ahrens</p>
+
+<p>I was working with ASP.NET MVC 4 the other day and stumbled across the following class&#8230;.System.Json.JsonObject. So, as it turns out Microsoft has already created the same class I was suggesting in my post. Most likely I will not continue creating the JsonObject class (aka Dyno.Net nuget package), unless it&#8217;s purely for educational purposes. I would hate to reinvent the wheel. However, it still may be worthwhile to create a dynamic rest client.</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
     <a href="/blog/archives">Blog Archives</a>
@@ -76,6 +543,14 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/13/git-workflow-for-subversion/">Using Git With Subversion (Git and SVN Workflow)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/18/exploring-net-dlr/">The DLR Isn&#8217;t Just For Dynamic Languages</a>
+      </li>
     
   </ul>
 </section>
