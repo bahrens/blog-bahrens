@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C# | Ben Ahrens]]></title>
   <link href="http://www.benjaminahrens.com/blog/categories/c-/atom.xml" rel="self"/>
   <link href="http://www.benjaminahrens.com/"/>
-  <updated>2013-10-16T22:15:55-04:00</updated>
+  <updated>2013-10-16T22:33:08-04:00</updated>
   <id>http://www.benjaminahrens.com/</id>
   <author>
     <name><![CDATA[Ben Ahrens]]></name>
@@ -38,21 +38,37 @@ by the end of this discussion). Luckily for us, Microsoft has provided some tool
 us, that we can start using immediately. Here's a quick example of the
 ExpandoObject in action:</p>
 
-<p>{% codeblock lang:csharp %}</p>
-
-<p>// create a new dynamic "person" object
-dynamic person = new ExpandoObject();</p>
-
-<p>// creates a new property "FirstName" and sets it's value to "Bill"
-person.FirstName = "Bill";</p>
-
-<p>// prints "Bill" to the console
-Console.WriteLine(person.FirstName);</p>
-
-<p>// throws an exception because the "LastName" property does not yet exist
-Console.WriteLine(person.LastName);</p>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="p">&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="c1">// create a new dynamic &quot;person&quot; object</span>
+</span><span class='line'><span class="kt">dynamic</span> <span class="n">person</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ExpandoObject</span><span class="p">();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="c1">// creates a new property &quot;FirstName&quot; and sets it&#39;s value to &quot;Bill&quot;</span>
+</span><span class='line'><span class="n">person</span><span class="p">.</span><span class="n">FirstName</span> <span class="p">=</span> <span class="s">&quot;Bill&quot;</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="c1">// prints &quot;Bill&quot; to the console</span>
+</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">FirstName</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="c1">// throws an exception because the &quot;LastName&quot; property does not yet exist</span>
+</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">LastName</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>As you can see from the above code sample, using the ExpandoObject was
 pretty easy. Let's talk briefly about how this works. The first thing to
@@ -79,18 +95,31 @@ have been aware of.</p>
 method or property on the object without the compiler generating errors. You may be asking, how does the ExpandoObject get or set a member when no implementation has been defined? The ExpandoObject is essentially a
 dictionary, where the keys are member names (ex. "FirstName"), and the value of the keys are set to the members' values (ex. "Bill"). For example, consider this code:</p>
 
-<p>{% codeblock lang:csharp %}</p>
-
-<p>// create a new dynamic "person" object
-dynamic person = new ExpandoObject();</p>
-
-<p>// creates a new property "FirstName" and sets it's value to "Bill"
-person.FirstName = "Bill";</p>
-
-<p>// prints "Bill" to the console
-Console.WriteLine(person.FirstName);</p>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="p">&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="c1">// create a new dynamic &quot;person&quot; object</span>
+</span><span class='line'><span class="kt">dynamic</span> <span class="n">person</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ExpandoObject</span><span class="p">();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="c1">// creates a new property &quot;FirstName&quot; and sets it&#39;s value to &quot;Bill&quot;</span>
+</span><span class='line'><span class="n">person</span><span class="p">.</span><span class="n">FirstName</span> <span class="p">=</span> <span class="s">&quot;Bill&quot;</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="c1">// prints &quot;Bill&quot; to the console</span>
+</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">FirstName</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>When the member "FirstName" is set to the string "Bill" on the person
 object, the following takes place:</p>
@@ -106,59 +135,111 @@ object, the following takes place:</p>
 
 <p>The ExpandoObject is a pretty powerful right out of the box. Still, there may be situations where the ExpandoObject won't provide the features that you need. At this point, you'll have to write your own dynamic object implementation. A possible option would be to inherit from the DynamicObject class. This is a little more involved than using an ExpandoObject, but it's still pretty straightforward. The DynamicObject class still takes care a lot of the low-level DLR stuff so that you can easily implement your own dynamic object. Let's walk through the details of implementing our own dynamic object by creating our own implementation of an ExpandoObject.</p>
 
-<p>{% codeblock lang:csharp %}</p>
-
-<p>public class AnotherExpandoObject : DynamicObject
-{
-  private static readonly IDictionary&lt;string, object>Dictionary =</p>
-
-<pre><code>new Dictionary&lt;string, object&gt;();
-</code></pre>
-
-<p>  public override bool TryGetMember(GetMemberBinder binder, out object result)
-  {</p>
-
-<pre><code>return Dictionary.TryGetValue(binder.Name, out result);
-</code></pre>
-
-<p>  }</p>
-
-<p>  public override bool TrySetMember(SetMemberBinder binder, object value)
-  {</p>
-
-<pre><code>if (Dictionary.ContainsKey(binder.Name))
-</code></pre>
-
-<p>    {</p>
-
-<pre><code>  Dictionary[binder.Name] = value;
-}
-else
-{
-  Dictionary.Add(binder.Name, value);
-}
-return true;
-</code></pre>
-
-<p>  }
-}</p>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="p">&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">public</span> <span class="k">class</span> <span class="nc">AnotherExpandoObject</span> <span class="p">:</span> <span class="n">DynamicObject</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">private</span> <span class="k">static</span> <span class="k">readonly</span> <span class="n">IDictionary</span><span class="p">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">object</span><span class="p">&gt;</span><span class="n">Dictionary</span> <span class="p">=&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">new</span> <span class="n">Dictionary</span><span class="p">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">object</span><span class="p">&amp;</span><span class="n">gt</span><span class="p">;();</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span>  <span class="k">public</span> <span class="k">override</span> <span class="kt">bool</span> <span class="n">TryGetMember</span><span class="p">(</span><span class="n">GetMemberBinder</span> <span class="n">binder</span><span class="p">,</span> <span class="k">out</span> <span class="kt">object</span> <span class="n">result</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">return</span> <span class="n">Dictionary</span><span class="p">.</span><span class="n">TryGetValue</span><span class="p">(</span><span class="n">binder</span><span class="p">.</span><span class="n">Name</span><span class="p">,</span> <span class="k">out</span> <span class="n">result</span><span class="p">);</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span>  <span class="p">}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span>  <span class="k">public</span> <span class="k">override</span> <span class="kt">bool</span> <span class="n">TrySetMember</span><span class="p">(</span><span class="n">SetMemberBinder</span> <span class="n">binder</span><span class="p">,</span> <span class="kt">object</span> <span class="k">value</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">if</span> <span class="p">(</span><span class="n">Dictionary</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">binder</span><span class="p">.</span><span class="n">Name</span><span class="p">))</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span>    <span class="p">{&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span>  <span class="n">Dictionary</span><span class="p">[</span><span class="n">binder</span><span class="p">.</span><span class="n">Name</span><span class="p">]</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">Dictionary</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">binder</span><span class="p">.</span><span class="n">Name</span><span class="p">,</span> <span class="k">value</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span>  <span class="p">}</span>
+</span><span class='line'><span class="p">}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>This is a pretty basic implementation of an dynamic object that has some of the same behavior as the built-in ExpandoObject class. Let's change the code from the first code sample, to the following code:</p>
 
-<p>{% codeblock lang:csharp %}</p>
-
-<p>// create a new dynamic "person" object
-dynamic person = new AnotherExpandoObject();</p>
-
-<p>// creates a new property "FirstName" and sets it's value to "Bill"
-person.FirstName = "Bill";</p>
-
-<p>// prints "Bill" to the console
-Console.WriteLine(person.FirstName);</p>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="p">&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="c1">// create a new dynamic &quot;person&quot; object</span>
+</span><span class='line'><span class="kt">dynamic</span> <span class="n">person</span> <span class="p">=</span> <span class="k">new</span> <span class="n">AnotherExpandoObject</span><span class="p">();&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="c1">// creates a new property &quot;FirstName&quot; and sets it&#39;s value to &quot;Bill&quot;</span>
+</span><span class='line'><span class="n">person</span><span class="p">.</span><span class="n">FirstName</span> <span class="p">=</span> <span class="s">&quot;Bill&quot;</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="c1">// prints &quot;Bill&quot; to the console</span>
+</span><span class='line'><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">FirstName</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Notice that the only change was that we are now using AnotherExpandoObject instead of ExpandoObject. This particular code sample will run and behave in the same way as it did with the ExpandoObject.</p>
 
@@ -170,24 +251,43 @@ Console.WriteLine(person.FirstName);</p>
 
 <p>So, why would you want to use the DLR? One particular scenario I've been exploring is with consuming RESTful services that utilize JSON and XML. I believe that the DLR is a really compelling choice for creating libraries and frameworks that help discover and consume RESTful web services. Imagine there was a library that allowed you to write the following type of code (against any RESTful API):</p>
 
-<p>{% codeblock lang:csharp %}</p>
-
-<p>// create a new rest client to the specified base url
-dynamic restClient = new RestClient("http://url.to.some.restful.api.com");</p>
-
-<p>// build up the resource url dynamically, and execute an http get
-// against the url http://url.to.some.restful.api.com/albums/photos/
-var photos = restClient.albums.photos(Method.Get);</p>
-
-<p>// read the returned json collection in a very natural way
-foreach (var photo in photos)
-{
-  Console.WriteLine(photo.name);
-  Console.WriteLine(photo.date);
-  Console.WriteLine(photo.albumName);
-}</p>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="p">&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="c1">// create a new rest client to the specified base url</span>
+</span><span class='line'><span class="kt">dynamic</span> <span class="n">restClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RestClient</span><span class="p">(</span><span class="s">&quot;http://url.to.some.restful.api.com&quot;</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="c1">// build up the resource url dynamically, and execute an http get</span>
+</span><span class='line'><span class="c1">// against the url http://url.to.some.restful.api.com/albums/photos/</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">photos</span> <span class="p">=</span> <span class="n">restClient</span><span class="p">.</span><span class="n">albums</span><span class="p">.</span><span class="n">photos</span><span class="p">(</span><span class="n">Method</span><span class="p">.</span><span class="n">Get</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="c1">// read the returned json collection in a very natural way</span>
+</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">photo</span> <span class="k">in</span> <span class="n">photos</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">photo</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">photo</span><span class="p">.</span><span class="n">date</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">photo</span><span class="p">.</span><span class="n">albumName</span><span class="p">);</span>
+</span><span class='line'><span class="p">}&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>There are a lot of concepts in the above example (the .NET DLR, convention over configuration, fluent interfaces, etc.) Some work has already been with respect to a JSON implementation. Check out the following code on <a href="https://github.com/bahrens/Dyno.Net">github</a> to get a preview. I'm hoping to cover this in more detail in my next post.</p>
 ]]></content>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: subversion | Ben Ahrens]]></title>
   <link href="http://www.benjaminahrens.com/blog/categories/subversion/atom.xml" rel="self"/>
   <link href="http://www.benjaminahrens.com/"/>
-  <updated>2013-10-16T22:15:55-04:00</updated>
+  <updated>2013-10-16T22:33:08-04:00</updated>
   <id>http://www.benjaminahrens.com/</id>
   <author>
     <name><![CDATA[Ben Ahrens]]></name>
@@ -20,18 +20,27 @@
     <id>http://www.benjaminahrens.com/blog/2013/01/17/cheetsheet-git-with-subversion</id>
     <content type="html"><![CDATA[<p>Previously, I blogged about using <a href="/blog/2012/12/13/git-workflow-for-subversion/">Git with Subversion</a>. Sometimes though, I like concise pieces of information, without all the details. For that reason, here is a cheatsheet on the steps for using Git with Subversion:</p>
 
-<p>{% codeblock lang:posh %}
-git svn rebase
-git branch new_awesome_feature_branch
-git checkout new_awesome_feature_branch
-git commit -m "this is best feature ever implemented"
-git rebase master
-git checkout master
-git merge new_awesome_feature_branch
-git svn rebase
-git svn dcommit
-git branch -D new_awesome_feature_branch
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">rebase</span>
+</span><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="n">new_awesome_feature_branch</span>
+</span><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="n">new_awesome_feature_branch</span>
+</span><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&quot;this is best feature ever implemented&quot;</span>
+</span><span class='line'><span class="n">git</span> <span class="n">rebase</span> <span class="n">master</span>
+</span><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="n">master</span>
+</span><span class='line'><span class="n">git</span> <span class="n">merge</span> <span class="n">new_awesome_feature_branch</span>
+</span><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">rebase</span>
+</span><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">dcommit</span>
+</span><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="n">-D</span> <span class="n">new_awesome_feature_branch</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
   
@@ -51,21 +60,21 @@ out as expected.  This kind of workflow really can't be done in Subversion sinc
 
 <p>If you have an existing Subversion repository that follows the standard trunk, tags, branches, convention, you can issue the following command:</p>
 
-<p>{% codeblock lang:posh %}
-git svn clone path_to_svn_repository -T trunk -b branches -t tags
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">clone</span> <span class="n">path_to_svn_repository</span> <span class="n">-T</span> <span class="n">trunk</span> <span class="n">-b</span> <span class="n">branches</span> <span class="n">-t</span> <span class="n">tags</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Or the following is shortcut for the above command:</p>
 
-<p>{% codeblock lang:posh %}
-git svn clone path_to_svn_repository -s
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">clone</span> <span class="n">path_to_svn_repository</span> <span class="n">-s</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Otherwise just clone without any additional flags, like so:</p>
 
-<p>{% codeblock lang:posh %}
-git svn clone path_to_svn_repository
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">clone</span> <span class="n">path_to_svn_repository</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>An important thing to note here...this can step can take a VERY long time.  If you were using Git for everything, the cloning operation is typically pretty fast.  What makes this process slow with Subversion is the fact that in addition to pulling down all the changes, it has to commit them to your local git repository (as opposed to just coping the repository that's on the server).  Depending on the size of your repository this can take hours, even days!  Make sure you give yourself enough time let this process run.</p>
 
@@ -89,17 +98,17 @@ git svn clone path_to_svn_repository
 
 <p>Assuming you're on your master branch (you can verify with git branch), perform the following:</p>
 
-<p>{% codeblock lang:posh %}
-git svn rebase
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">rebase</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h4>Step 2 - Creating a local branch</h4>
 
 <p>Now create yourself a new local branch for working on a feature:</p>
 
-<p>{% codeblock lang:posh %}
-git branch new_awesome_feature_branch
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="n">new_awesome_feature_branch</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>This command creates a local branch that will not exist anywhere else but your local repository unless you issue the appropriate git commands to push this branch somewhere else.</p>
 
@@ -107,25 +116,25 @@ git branch new_awesome_feature_branch
 
 <p>You now have a local branch called new_awesome_feature_branch. In order to do work on this branch, you first have to checkout the branch with the following command:</p>
 
-<p>{% codeblock lang:posh %}
-git checkout new_awesome_feature_branch
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="n">new_awesome_feature_branch</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h4>Step 4 - Make some changes, and commit them</h4>
 
 <p>You are now ready to start implementing your "new awesome feature". The typical git workflow at this point would be to make some changes, and add them to your staging area with the git add command. Once you have your changes staged, commit them to your current branch with:</p>
 
-<p>{% codeblock lang:posh %}
-git commit -m "this is best feature ever implemented"
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&quot;this is best feature ever implemented&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h4>Step 5 - Rebase local branch onto master</h4>
 
 <p>Now comes one of the most important steps, which is integrating your changes with master, so that you can commit them to the central Subversion repository.  All the best practices that I found when using git with Subversion, suggested to keep your commit history as linear as possible.  Rather than immediately merging your branch back into master, rebase first. To do this, issue the following command:</p>
 
-<p>{% codeblock lang:posh %}
-git rebase master
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">rebase</span> <span class="n">master</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>If you haven't performed a git svn rebase on the master branch, or rebased other local branches onto your master since you did work on your new branch, the rebasing step will be straightforward and should happen without any merge conflicts.  If changes on master have occurred since you branched, then it is possible that you may have to deal with some merge conflicts.  I won't cover resolving merges here, instead I recommend checking out git documentation or reading <a href="http://goo.gl/koR4L">ProGit</a>.</p>
 
@@ -133,17 +142,17 @@ git rebase master
 
 <p>Checkout your master branch:</p>
 
-<p>{% codeblock lang:posh %}
-git checkout master
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="n">master</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h4>Step 7 - Fast-Forward Merge</h4>
 
 <p>Now for merging your changes back into master.  Because you performed a rebase of the master branch onto your feature branch, this next thing to occur will be what is referred to as a "fast-forward merge".  I won't cover the technical details of this, essentially it is a simple merge process that advances your master branch forward to last commit you made on the new_awesome_feature_branch.  Perform the merge with this command:</p>
 
-<p>{% codeblock lang:posh %}
-git merge new_awesome_feature_branch
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">merge</span> <span class="n">new_awesome_feature_branch</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h4>Step 8 - Sync with Subversion again (optional)</h4>
 
@@ -151,17 +160,17 @@ git merge new_awesome_feature_branch
 
 <p>If you want to be very thorough before commit your changes, you could get the master branch in sync with the Subversion repository before committing.  This is not necessary, because the next step should take care of getting you sync if it's required.  If you remember from earlier, the command for syncing with Subversion is:</p>
 
-<p>{% codeblock lang:posh %}
-git svn rebase
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">rebase</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h4>Step 9 - Commit to Subversion</h4>
 
 <p>We are getting very close to being done.  Let's push all the commits you have on master, up to your Subversion repository. To do that, issue this command:</p>
 
-<p>{% codeblock lang:posh %}
-git svn dcommit
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">dcommit</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>If you're interested in what happens during this step, I'll give you a little background.  Because Git and Subversion are two completely different types of version control systems, this command you just issued has to do some special things.  One of these is to commit your changes to the Subversion repository and also "rewrite" your commits within your local Git repository while also adding the Subversion revision id so that it can track commits.  If you happened to look at the SHA-1 hashes for your git commits before and after running this last command, you'd noticed that they are different because of rewriting.</p>
 
@@ -169,9 +178,9 @@ git svn dcommit
 
 <p>Now that you're done implementing your new awesome feature, it is safe to delete the new_awesome_feature_branch.  I recommend doing this immediately.  Git branches are so lightweight and easy to create, that there is no reason to keep this local branch around.  I typically create myself a new branch every time I do a small bit of related work. Because of the special things that happen with the Git and Subversion integration, you may get a warning when deleting your branch, stating that it may not have been merged back into master.  This has to do with "rewriting" that occurred when committing to Subversion.  This is easy to overcome and can be overridden by issuing this command:</p>
 
-<p>{% codeblock lang:posh %}
-git branch -D new_awesome_feature_branch
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="n">-D</span> <span class="n">new_awesome_feature_branch</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>The capital D is important here.  This forces the delete to happen.</p>
 
@@ -179,18 +188,27 @@ git branch -D new_awesome_feature_branch
 
 <p>This may have seemed like a lot of information and steps, however, in practice, this workflow is pretty easy.  Here's a quick recap of the steps from a different point of view, the commands you will issue with Git:</p>
 
-<p>{% codeblock lang:posh %}
-git svn rebase
-git branch new_awesome_feature_branch
-git checkout new_awesome_feature_branch
-git commit -m "this is best feature ever implemented"
-git rebase master
-git checkout master
-git merge new_awesome_feature_branch
-git svn rebase
-git svn dcommit
-git branch -D new_awesome_feature_branch
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='posh'><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">rebase</span>
+</span><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="n">new_awesome_feature_branch</span>
+</span><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="n">new_awesome_feature_branch</span>
+</span><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&quot;this is best feature ever implemented&quot;</span>
+</span><span class='line'><span class="n">git</span> <span class="n">rebase</span> <span class="n">master</span>
+</span><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="n">master</span>
+</span><span class='line'><span class="n">git</span> <span class="n">merge</span> <span class="n">new_awesome_feature_branch</span>
+</span><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">rebase</span>
+</span><span class='line'><span class="n">git</span> <span class="n">svn</span> <span class="n">dcommit</span>
+</span><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="n">-D</span> <span class="n">new_awesome_feature_branch</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>It took me a little while to figure out how to best use Git local branches with Subversion. I hope this information is helpful to others that want to use Git with Subversion, as well as save you some time.</p>
 ]]></content>
