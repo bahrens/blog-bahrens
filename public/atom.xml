@@ -4,12 +4,13 @@
   <title><![CDATA[Ben Ahrens]]></title>
   <link href="http://www.benjaminahrens.com/atom.xml" rel="self"/>
   <link href="http://www.benjaminahrens.com/"/>
-  <updated>2013-07-09T21:07:34-04:00</updated>
+  <updated>2013-10-16T22:15:46-04:00</updated>
   <id>http://www.benjaminahrens.com/</id>
   <author>
     <name><![CDATA[Ben Ahrens]]></name>
     
   </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
   <entry>

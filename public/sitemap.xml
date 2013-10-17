@@ -2,42 +2,68 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://www.benjaminahrens.com/blog/2012/02/18/exploring-net-dlr/</loc>
-        <lastmod>2013-07-09T21:07:28-04:00</lastmod>
+        <lastmod>2013-10-16T22:04:32-04:00</lastmod>
     </url>
     <url>
         <loc>http://www.benjaminahrens.com/blog/2012/12/13/git-workflow-for-subversion/</loc>
-        <lastmod>2013-07-09T21:07:28-04:00</lastmod>
+        <lastmod>2013-10-16T22:04:32-04:00</lastmod>
     </url>
     <url>
         <loc>http://www.benjaminahrens.com/blog/2013/01/17/cheetsheet-git-with-subversion/</loc>
-        <lastmod>2013-07-09T21:07:28-04:00</lastmod>
+        <lastmod>2013-10-16T22:04:32-04:00</lastmod>
     </url>
     <url>
         <loc>http://www.benjaminahrens.com/about/</loc>
-        <lastmod>2013-07-09T21:07:28-04:00</lastmod>
+        <lastmod>2013-10-16T22:04:32-04:00</lastmod>
     </url>
     <url>
         <loc>http://www.benjaminahrens.com/archives/</loc>
-        <lastmod>2013-07-09T21:07:28-04:00</lastmod>
+        <lastmod>2013-10-16T22:04:32-04:00</lastmod>
     </url>
     <url>
         <loc>http://www.benjaminahrens.com/blog/archives/</loc>
-        <lastmod>2013-07-09T21:07:28-04:00</lastmod>
+        <lastmod>2013-10-16T22:04:32-04:00</lastmod>
     </url>
     <url>
         <loc>http://www.benjaminahrens.com/blog/</loc>
-        <lastmod>2013-07-09T21:07:28-04:00</lastmod>
+        <lastmod>2013-10-16T22:04:32-04:00</lastmod>
     </url>
     <url>
         <loc>http://www.benjaminahrens.com/</loc>
-        <lastmod>2013-07-09T21:07:28-04:00</lastmod>
+        <lastmod>2013-10-16T22:04:32-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.benjaminahrens.com/javascripts/libs/bootstrap-3.0.0/components.html</loc>
+        <lastmod>2013-10-16T22:04:32-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.benjaminahrens.com/javascripts/libs/bootstrap-3.0.0/css.html</loc>
+        <lastmod>2013-10-16T22:04:32-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.benjaminahrens.com/javascripts/libs/bootstrap-3.0.0/customize.html</loc>
+        <lastmod>2013-10-16T22:04:32-04:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://www.benjaminahrens.com/javascripts/libs/bootstrap-3.0.0/getting-started.html
+        </loc>
+        <lastmod>2013-10-16T22:04:33-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.benjaminahrens.com/javascripts/libs/bootstrap-3.0.0/</loc>
+        <lastmod>2013-10-16T22:04:33-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.benjaminahrens.com/javascripts/libs/bootstrap-3.0.0/javascript.html</loc>
+        <lastmod>2013-10-16T22:04:33-04:00</lastmod>
     </url>
     <url>
         <loc>http://www.benjaminahrens.com/robots.txt</loc>
-        <lastmod>2013-07-09T21:07:28-04:00</lastmod>
+        <lastmod>2013-10-16T22:04:33-04:00</lastmod>
     </url>
     <url>
         <loc>http://www.benjaminahrens.com/search.html</loc>
-        <lastmod>2013-07-09T21:07:28-04:00</lastmod>
+        <lastmod>2013-10-16T22:04:32-04:00</lastmod>
     </url>
 </urlset>
